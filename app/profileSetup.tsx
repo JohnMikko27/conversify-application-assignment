@@ -2,7 +2,7 @@ import { Text, View, TextInput, Button, StyleSheet, Image, TouchableOpacity, Pre
 import { useForm, Controller } from "react-hook-form"
 import * as ImagePicker from "expo-image-picker"
 import { useState } from "react"
-import { Link } from "expo-router"
+import { Link, useRouter } from "expo-router"
 
 export default function App() {
   const { control, handleSubmit, formState: { errors }, } = useForm({
@@ -13,9 +13,14 @@ export default function App() {
     },
   })
   const [image, setImage] = useState("../assets/images/profilePlacholder.png")
+  const router = useRouter()
 
   const onSubmit = (data: any) => {
+    if (errors.firstName || errors.lastName || errors.age) {
+      return
+    }
     console.log(data)
+    router.push('/voicePreference')
   }
 
   const uploadImage = async() => {
@@ -36,22 +41,22 @@ export default function App() {
     }
   }
 
-//
   return (
     <View style={styles.main}>
-        <TouchableOpacity onPress={uploadImage}>
-            <Image 
-              source={{uri: image}}
-              style={styles.image}
-            />
-        </TouchableOpacity>
+      <TouchableOpacity onPress={uploadImage}>
+        <Image 
+            source={{uri: image}}
+            style={styles.image}
+        />
+        
+      </TouchableOpacity>
       <Controller
         control={control}
         rules={{
           required: true,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View>
+          <View style={styles.inputGroup}>
             <Text>First Name</Text>
             <TextInput
               style={styles.input}
@@ -59,7 +64,7 @@ export default function App() {
               onChangeText={onChange}
               value={value}
             />
-            {errors.firstName && <Text>This is required.</Text>}
+            {errors.firstName && <Text style={styles.errorMsg}>This is required.</Text>}
 
           </View>
         )}
@@ -71,7 +76,7 @@ export default function App() {
           required: true
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View>
+          <View style={styles.inputGroup}>
             <Text>Last Name</Text>
             <TextInput
               style={styles.input}
@@ -79,7 +84,7 @@ export default function App() {
               onChangeText={onChange}
               value={value}
             />
-            {errors.lastName && <Text>This is required.</Text>}
+            {errors.lastName && <Text style={styles.errorMsg}>This is required.</Text>}
 
           </View>
         )}
@@ -92,7 +97,7 @@ export default function App() {
           required: true
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View>
+          <View style={styles.inputGroup}>
             <Text>Age</Text>
             <TextInput
               style={styles.input}
@@ -100,7 +105,7 @@ export default function App() {
               onChangeText={onChange}
               keyboardType="numeric"
             />
-            {errors.age && <Text>This is required.</Text>}
+            {errors.age && <Text style={styles.errorMsg}>This is required.</Text>}
 
           </View>
         )}
@@ -108,7 +113,7 @@ export default function App() {
       />
 
       <Pressable onPress={handleSubmit(onSubmit)} style={styles.submitBtn}>
-        <Link href="/conversationFocus">Submit</Link>
+        <Text>Submit</Text>
       </Pressable>
     </View>
   )
@@ -117,27 +122,38 @@ export default function App() {
 const styles = StyleSheet.create({
     main: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        paddingTop: 100,
+        alignItems: 'center', 
+        gap: 15
+    },
+
+    inputGroup: {
+        gap: 4
     },
 
     input: {
         borderWidth: 1,
-        borderColor: 'black'
+        borderColor: 'black',
+        borderRadius: 3
     },
 
     image: {
-        width: 30, 
-        height: 30,
-        borderWidth: 3,
+        width: 100, 
+        height: 100,
+        borderWidth: 1,
         borderColor: 'black',
-        borderRadius: 15
+        borderRadius: 50
     },
 
     submitBtn: {
-        padding: 4,
         borderWidth: 1,
         borderColor: 'black',
-        borderRadius: 15
+        borderRadius: 12,
+        padding: 8
+    },
+
+    errorMsg: {
+        color: 'red',
+        fontStyle: 'italic'
     }
 })
