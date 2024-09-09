@@ -9,10 +9,11 @@ export default function conversationFocus() {
     const [check3, setCheck3] = useState(false)
     const [check4, setCheck4] = useState(false)
 
+        
     return (
         <View style={styles.main}>
             <View>
-                <Text style={styles.mainHeader}>Choose your area of focus</Text>
+                <Text style={styles.mainHeader}>Choose Your Area of Focus</Text>
             </View>
             <View style={styles.checkboxesContainer}>
                 <View style={styles.checkboxGroup}>
