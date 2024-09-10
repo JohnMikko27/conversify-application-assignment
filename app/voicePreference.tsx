@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { CheckBox } from "@rneui/base";
 import { useState, useEffect } from "react";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useContext } from "react"
 import { Context } from "./_layout"
 
 export default function voicePreference() {
     // change how i handle state for this and conversationFocus
     const [checks, setChecks] = useState({ casual: false, professional: false, romantic: false, other: false})
-
     const [progress, setProgress] = useContext(Context)
+    const router = useRouter()
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         setProgress(0.75)
@@ -21,6 +22,15 @@ export default function voicePreference() {
         else if(check === "romantic") setChecks({ casual: false, professional: false, romantic: true, other: false});
         else if(check === "other") setChecks({ casual: false, professional: false, romantic: false, other: true});
     }
+
+    const handleNext = () => {
+        if (checks.casual === false && checks.professional === false && checks.romantic === false && checks.other === false) {
+          setError(true)
+          return
+        }
+
+        router.push('/completion')
+      }
 
     return (
         <View style={styles.main}>
@@ -67,8 +77,9 @@ export default function voicePreference() {
                     />
                 </View>
             </View>
-            <Pressable>
-                <Link href="/completion" style={styles.nextBtn}>Next</Link>
+            {error && <Text style={styles.errorMsg}>Please choose an option</Text>}
+            <Pressable onPress={handleNext} >
+                <Text style={styles.nextBtn}>Next</Text>
             </Pressable>
         </View>
     )
@@ -105,5 +116,10 @@ const styles = StyleSheet.create({
         fontSize: 20, 
         padding: 10,
         margin: 10
+    },
+
+    errorMsg: {
+        fontStyle: 'italic',
+        color: 'red'
     }
 })
