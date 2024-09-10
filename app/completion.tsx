@@ -1,7 +1,16 @@
 import { Link } from "expo-router";
 import { Text, View, StyleSheet } from "react-native";
+import { useContext } from "react"
+import { Context } from "./_layout"
+import { useEffect } from "react";
 
 export default function completion() {
+    const [progress, setProgress] = useContext(Context)
+
+    useEffect(() => {
+        setProgress(1)
+    }, [])
+
     return (
         <View style={styles.main}>
             <Text style={styles.message}>You’re all set! Get ready to master conversations.</Text>
@@ -9,6 +18,8 @@ export default function completion() {
         </View>
     )
 }
+
+    
 
 const styles = StyleSheet.create({
     main: {

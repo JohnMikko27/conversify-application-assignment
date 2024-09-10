@@ -2,9 +2,11 @@ import { Text, View, TextInput, Button, StyleSheet, Image, TouchableOpacity, Pre
 import { useForm, Controller } from "react-hook-form"
 import * as ImagePicker from "expo-image-picker"
 import { useState } from "react"
-import { Link, useRouter } from "expo-router"
+import { Link, useRouter, } from "expo-router"
+import { useEffect, useContext } from "react"
+import { Context } from "./_layout"
 
-export default function App() {
+export default function profileSetup({ route }: { route: any }) {
   const { control, handleSubmit, formState: { errors }, } = useForm({
     defaultValues: {
       firstName: "",
@@ -14,13 +16,18 @@ export default function App() {
   })
   const [image, setImage] = useState("../assets/images/profilePlacholder.png")
   const router = useRouter()
+  const [progress, setProgress] = useContext(Context)
+
+  useEffect(() => {
+    setProgress(0.25)
+  }, [])
 
   const onSubmit = (data: any) => {
     if (errors.firstName || errors.lastName || errors.age) {
       return
     }
     console.log(data)
-    router.push('/voicePreference')
+    router.push('/conversationFocus')
   }
 
   const uploadImage = async() => {

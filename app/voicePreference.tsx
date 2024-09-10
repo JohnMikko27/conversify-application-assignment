@@ -1,11 +1,19 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { CheckBox } from "@rneui/base";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "expo-router";
+import { useContext } from "react"
+import { Context } from "./_layout"
 
 export default function voicePreference() {
     // change how i handle state for this and conversationFocus
     const [checks, setChecks] = useState({ casual: false, professional: false, romantic: false, other: false})
+
+    const [progress, setProgress] = useContext(Context)
+
+    useEffect(() => {
+        setProgress(0.75)
+    }, [])
 
     const handleCheck = (check: string) => {
         if (check === "casual") setChecks({ casual: true, professional: false, romantic: false, other: false});

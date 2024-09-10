@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet } from "react-native"
 import { CheckBox } from "@rneui/base"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "expo-router"
+import { useContext } from "react"
+import { Context } from "./_layout"
 
 export default function conversationFocus() {
     const [check1, setCheck1] = useState(false)
@@ -9,6 +11,11 @@ export default function conversationFocus() {
     const [check3, setCheck3] = useState(false)
     const [check4, setCheck4] = useState(false)
 
+    const [progress, setProgress] = useContext(Context)
+
+    useEffect(() => {
+        setProgress(0.5)
+    }, [])
         
     return (
         <View style={styles.main}>
