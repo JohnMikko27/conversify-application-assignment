@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Pressable } from "react-native"
 import { CheckBox } from "@rneui/base"
 import { useState, useEffect } from "react"
-import { Link } from "expo-router"
+import { Link, useRouter } from "expo-router"
 import { useContext } from "react"
 import { Context } from "./_layout"
 
@@ -10,12 +10,22 @@ export default function conversationFocus() {
     const [check2, setCheck2] = useState(false)
     const [check3, setCheck3] = useState(false)
     const [check4, setCheck4] = useState(false)
-
     const [progress, setProgress] = useContext(Context)
+    const [error, setError] = useState(false)
+    const router = useRouter()
 
     useEffect(() => {
         setProgress(0.5)
     }, [])
+
+    const handleNext = () => {
+        if (!(check1 || check2 || check3 || check4)) {
+          setError(true)
+          return
+        }
+
+        router.push('/voicePreference')
+    }
         
     return (
         <View style={styles.main}>
@@ -67,8 +77,11 @@ export default function conversationFocus() {
                         onPress={() => setCheck4(!check4)}
                     />
                 </View>
+                {error && <Text style={styles.errorMsg}>Please choose an option</Text>}
             </View>
-            <Link href="/voicePreference" style={styles.nextBtn}>Next</Link>
+            <Pressable onPress={handleNext}>
+                <Text style={styles.nextBtn}>Next</Text>
+            </Pressable>
         </View>
     )
 }
@@ -114,5 +127,11 @@ const styles = StyleSheet.create({
         fontSize: 20, 
         padding: 10,
         margin: 10
+    },
+
+    errorMsg: {
+        fontStyle: 'italic',
+        color: 'red',
+        paddingHorizontal: 20
     }
 })

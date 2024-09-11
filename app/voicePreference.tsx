@@ -30,7 +30,7 @@ export default function voicePreference() {
         }
 
         router.push('/completion')
-      }
+    }
 
     return (
         <View style={styles.main}>
@@ -76,8 +76,8 @@ export default function voicePreference() {
                         uncheckedIcon="circle-o"
                     />
                 </View>
+                {error && <Text style={styles.errorMsg}>Please choose an option</Text>}
             </View>
-            {error && <Text style={styles.errorMsg}>Please choose an option</Text>}
             <Pressable onPress={handleNext} >
                 <Text style={styles.nextBtn}>Next</Text>
             </Pressable>
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
 
     errorMsg: {
         fontStyle: 'italic',
-        color: 'red'
+        color: 'red',
+        paddingHorizontal: 20
     }
 })
