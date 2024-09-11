@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Link, useRouter } from "expo-router"
 import { useContext } from "react"
 import { Context } from "./_layout"
+import { db } from "@/db/db"
 
 export default function conversationFocus() {
     const [check1, setCheck1] = useState(false)
@@ -23,7 +24,10 @@ export default function conversationFocus() {
           setError(true)
           return
         }
-
+        db.conversationFocus.publicSpeaking = check1
+        db.conversationFocus.professional = check2
+        db.conversationFocus.academic = check3
+        db.conversationFocus.rizz = check4
         router.push('/voicePreference')
     }
         

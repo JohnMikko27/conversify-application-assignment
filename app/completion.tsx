@@ -3,11 +3,13 @@ import { Text, View, StyleSheet } from "react-native";
 import { useContext } from "react"
 import { Context } from "./_layout"
 import { useEffect } from "react";
+import { db } from "@/db/db";
 
 export default function completion() {
     const [progress, setProgress] = useContext(Context)
 
     useEffect(() => {
+        console.log(db)
         setProgress(1)
     }, [])
 

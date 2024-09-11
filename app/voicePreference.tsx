@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link, useRouter } from "expo-router";
 import { useContext } from "react"
 import { Context } from "./_layout"
+import { db } from "@/db/db";
 
 export default function voicePreference() {
     // change how i handle state for this and conversationFocus
@@ -28,7 +29,7 @@ export default function voicePreference() {
           setError(true)
           return
         }
-
+        db.voicePreference = checks
         router.push('/completion')
     }
 

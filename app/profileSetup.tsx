@@ -5,6 +5,7 @@ import { useState } from "react"
 import { Link, useRouter, } from "expo-router"
 import { useEffect, useContext } from "react"
 import { Context } from "./_layout"
+import { db } from "../db/db"
 
 export default function profileSetup({ route }: { route: any }) {
   const { control, handleSubmit, formState: { errors }, } = useForm({
@@ -26,7 +27,9 @@ export default function profileSetup({ route }: { route: any }) {
     if (errors.firstName || errors.lastName || errors.age) {
       return
     }
-    console.log(data)
+    db.profile.firstName = data.firstName
+    db.profile.lastName = data.lastName
+    db.profile.age = data.age
     router.push('/conversationFocus')
   }
 
@@ -42,6 +45,7 @@ export default function profileSetup({ route }: { route: any }) {
         })
         if (!result.canceled) {
             setImage(result.assets[0].uri)
+            db.profile.image = result.assets[0].uri
         }
     } catch(e) {
         console.log(e)
